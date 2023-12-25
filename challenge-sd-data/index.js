@@ -6,14 +6,14 @@ const relatedUsers = JSON.parse(fs.readFileSync('related_users.json', 'utf-8'));
 const movies = JSON.parse(fs.readFileSync('movie_data.json', 'utf-8'));
 const userPreferences = JSON.parse(fs.readFileSync('user_preference.json', 'utf-8'));
 
-// Function to calculate Gaussian decay
+
 function calculateGaussianDecay(movieReleaseDate) {
   const timeDelta = new Date() - new Date(movieReleaseDate);
   const decayFactor = Math.exp(-(timeDelta / (365 * 24 * 60 * 60 * 1000))); // Assuming timeDelta in milliseconds
   return decayFactor;
 }
 
-// Function to calculate user's preference towards the movie based on genres
+
 function calculateGenrePreference(movieGenres, userId) {
   const userPreference = userPreferences.find(preference => preference.user_id === userId);
   let genreScore = 0;
@@ -28,7 +28,6 @@ function calculateGenrePreference(movieGenres, userId) {
   return genreScore;
 }
 
-// Function to calculate average preference towards the movie by related users
 function calculateAverageRelatedUserPreference(movieGenres, relatedUsersList) {
   let totalRelatedScore = 0;
   let totalRelatedUsers = 0;
@@ -50,7 +49,6 @@ function calculateAverageRelatedUserPreference(movieGenres, relatedUsersList) {
   return totalRelatedUsers === 0 ? 0 : totalRelatedScore / totalRelatedUsers;
 }
 
-// Function to generate personalized feed for the user
 function getPersonalizedFeed(userId) {
   const user = users.find(user => user.user_id === userId);
   const userRelated = relatedUsers[userId];
@@ -67,7 +65,7 @@ function getPersonalizedFeed(userId) {
     return { ...movie, relevanceScore };
   });
 
-  // Sort the personalized feed by relevance score in descending order
+  
   personalizedFeed.sort((a, b) => b.relevanceScore - a.relevanceScore);
 
   // Return the top 10 movies
